@@ -4,7 +4,7 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropou
 
 IMG_SIZE = 300
 LR = 0.001
-nb_classes = 3
+nb_classes = 26
 
 def vgg16_model():
     model = Sequential()

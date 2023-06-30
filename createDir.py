@@ -2,7 +2,7 @@ import os
 
 os.makedirs("Data")
 # Obtener la letra inicial y final del alfabeto inglés
-letra_inicial = ord('D')
+letra_inicial = ord('A')
 letra_final = ord('Z')
 
 # Crear las carpetas

@@ -9,7 +9,7 @@ imgSize = 300
 
 cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 detector = HandDetector(maxHands=1)
-folder = "Data/A"
+folder = "Data/Z"
 counter = 0
 
 while True:
@@ -46,8 +46,10 @@ while True:
                 hGap = math.ceil((imgSize - hCal) / 2)
                 imgWhite[hGap:hCal + hGap, :] = imgResize
 
+        if imgCropShape[0] > 0 and imgCropShape[1] > 0:  # Verificar si las dimensiones son mayores que cero
+            cv2.imshow('imgCrop', imgCrop)
+
         cv2.imshow('imgWhite', imgWhite)
-        cv2.imshow('imgCrop', imgCrop)
 
     cv2.imshow("Image", img)
     key = cv2.waitKey(1)
@@ -57,5 +59,5 @@ while True:
         print(counter)
     if key == ord("q"):
         exit()
-        
+
 cv2.destroyAllWindows()

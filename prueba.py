@@ -31,40 +31,38 @@ while True:
 
         aspectRatio = h / w
 
-        if aspectRatio > 1:
-            k = imgSize / h
-            wCal = math.ceil(k * w)
-            imgResize = cv2.resize(imgCrop, (wCal, imgSize))
-            imgResizeShape = imgResize.shape
-            wGap = math.ceil((imgSize - wCal) / 2)
-            imgWhite[:, wGap:wCal + wGap] = imgResize
-            imgWhite = imgWhite.astype('float32') / 255.0
-            imgWhite = np.expand_dims(imgWhite, axis=0)
-            prediction = model.predict(imgWhite)
-            index = np.argmax(prediction[0])
-            print(labels[index])
+        if not imgCropShape[0] == 0 and not imgCropShape[1] == 0:
+            if aspectRatio > 1:
+                k = imgSize / h
+                wCal = math.ceil(k * w)
+                imgResize = cv2.resize(imgCrop, (wCal, imgSize))
+                imgResizeShape = imgResize.shape
+                wGap = math.ceil((imgSize - wCal) / 2)
+                imgWhite[:, wGap:wCal + wGap] = imgResize
+                imgWhite = imgWhite.astype('float32') / 255.0
+                imgWhite = np.expand_dims(imgWhite, axis=0)
+                prediction = model.predict(imgWhite)
+                index = np.argmax(prediction[0])
+                print(labels[index])
 
-        else:
-            k = imgSize / w
-            hCal = math.ceil(k * h)
-            imgResize = cv2.resize(imgCrop, (imgSize, hCal))
-            imgResizeShape = imgResize.shape
-            hGap = math.ceil((imgSize - hCal) / 2)
-            imgWhite[hGap:hCal + hGap, :] = imgResize
-            imgWhite = imgWhite.astype('float32') / 255.0
-            imgWhite = np.expand_dims(imgWhite, axis=0)
-            prediction = model.predict(imgWhite)
-            index = np.argmax(prediction[0])
-            print(labels[index])
+            else:
+                k = imgSize / w
+                hCal = math.ceil(k * h)
+                imgResize = cv2.resize(imgCrop, (imgSize, hCal))
+                imgResizeShape = imgResize.shape
+                hGap = math.ceil((imgSize - hCal) / 2)
+                imgWhite[hGap:hCal + hGap, :] = imgResize
+                imgWhite = imgWhite.astype('float32') / 255.0
+                imgWhite = np.expand_dims(imgWhite, axis=0)
+                prediction = model.predict(imgWhite)
+                index = np.argmax(prediction[0])
+                print(labels[index])
 
-        cv2.rectangle(imgOutput, (x - offset, y - offset-50),
-                      (x - offset+90, y - offset-50+50), (255, 0, 255), cv2.FILLED)
-        cv2.putText(imgOutput, labels[index], (x, y -26), cv2.FONT_HERSHEY_COMPLEX, 1.7, (255, 255, 255), 2)
-        cv2.rectangle(imgOutput, (x-offset, y-offset),
-                      (x + w+offset, y + h+offset), (255, 0, 255), 4)
-
-        cv2.imshow("ImageCrop", imgCrop)
-        cv2.imshow("ImageWhite", imgWhite[0])
+            cv2.rectangle(imgOutput, (x - offset, y - offset-50),
+                          (x - offset+90, y - offset-50+50), (255, 0, 255), cv2.FILLED)
+            cv2.putText(imgOutput, labels[index], (x, y -26), cv2.FONT_HERSHEY_COMPLEX, 1.7, (255, 255, 255), 2)
+            cv2.rectangle(imgOutput, (x-offset, y-offset),
+                          (x + w+offset, y + h+offset), (255, 0, 255), 4)
 
     cv2.imshow("Image", imgOutput)
     key = cv2.waitKey(1)
